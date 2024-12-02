@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>合体</title>
+    <title>入力フォームの組み合わせ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,14 +13,11 @@
         }
 
         .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 15px;
-        }
-
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-            color: #333;
-            word-wrap: break-word;
         }
 
         #input1 {
@@ -35,7 +32,7 @@
         }
 
         button {
-            padding: 0.7em 1.5em;
+            padding: 0.5em 1em;
             font-size: 1em;
             border: none;
             background-color: #007BFF;
@@ -48,6 +45,13 @@
             background-color: #0056b3;
         }
 
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+            word-wrap: break-word;
+        }
+
         a {
             text-decoration: none;
             color: blue;
@@ -57,41 +61,29 @@
         a:hover {
             text-decoration: underline;
         }
-
-        /* レスポンシブ対応 */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            #input1 {
-                width: 100%;
-                font-size: 1.1em;
-            }
-
-            button {
-                width: 100%;
-                font-size: 1.1em;
-            }
-
-            .result {
-                font-size: 1em;
-            }
-        }
     </style>
 </head>
 <body>
-    <h1>URL作成サイト</h1>
+    <h1>入力を組み合わせる</h1>
     <form id="combineForm">
         <div class="form-group">
-            <label for="input1">ここに入力するのだ</label>
             <input type="text" id="input1" placeholder="ここに入力">
+            <button type="button" onclick="pasteFromClipboard()">貼り付け</button>
         </div>
-        <button type="button" onclick="combineInputs()">合体</button>
+        <button type="button" onclick="combineInputs()">組み合わせる</button>
     </form>
     <div class="result" id="result"></div>
 
     <script>
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText(); // クリップボードからテキストを取得
+                document.getElementById("input1").value = text;
+            } catch (error) {
+                alert("クリップボードから貼り付けに失敗しました。ブラウザの設定を確認してください。");
+            }
+        }
+
         function combineInputs() {
             const input1 = document.getElementById("input1").value;
             const resultURL = "h" + input1; // 入力内容をURLに変換
